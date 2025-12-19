@@ -1,11 +1,94 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Practice Site</title>
-  </head>
-  <body>
-    <h1>Practice Site</h1>
-    <p>This is my practice website.</p>
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tessara — Turning good intentions into work</title>
+  <style>
+    :root { --max: 960px; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; }
+    header { padding: 56px 16px; border-bottom: 1px solid #e6e6e6; }
+    main { padding: 28px 16px 56px; }
+    .wrap { max-width: var(--max); margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 40px; letter-spacing: -0.02em; }
+    .tagline { margin: 0; font-size: 18px; color: #444; }
+    section { padding: 22px 0; border-bottom: 1px solid #f0f0f0; }
+    section:last-child { border-bottom: none; }
+    h2 { margin: 0 0 10px; font-size: 22px; }
+    .note { color: #555; }
+    ul { margin: 10px 0 0 18px; }
+    .cta-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .btn {
+      display: inline-block; padding: 10px 14px; border: 1px solid #111; border-radius: 10px;
+      text-decoration: none; color: #111; font-weight: 600;
+    }
+    .btn.secondary { border-color: #bbb; color: #222; }
+  </style>
+</head>
+<body>
+
+  <!-- 1) Banner -->
+  <header>
+    <div class="wrap">
+      <h1>Tessara</h1>
+      <p class="tagline">Turning good intentions into work.</p>
+      <p class="note">A simple, local way to match volunteers with nonprofits — without making it complicated.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- 2) Welcoming message -->
+      <section id="welcome">
+        <h2>Welcome</h2>
+        <p>
+          Tessara helps people who want to help—find a clear next step. Whether you’re an individual looking
+          for a good fit, or a nonprofit trying to fill real needs, we make it easier to connect and follow through.
+        </p>
+        <p class="note">
+          This site is an early version. We’re building it in public, learning as we go, and improving it based on feedback.
+        </p>
+      </section>
+
+      <!-- 3) Content for potential volunteers -->
+      <section id="volunteers">
+        <h2>For Volunteers</h2>
+        <p>
+          If you want to volunteer but don’t want a maze of forms or uncertainty, you’re in the right place.
+          The goal is to match you with opportunities that fit your availability, interests, and comfort level.
+        </p>
+        <ul>
+          <li>Browse opportunities that are clearly described (time, location, expectations).</li>
+          <li>Start small if you want—one-time or short-term options are welcome.</li>
+          <li>Track what you did and what you learned, so progress doesn’t disappear.</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn" href="#">Volunteer: Start Here (coming soon)</a>
+          <a class="btn secondary" href="#">See Opportunities (coming soon)</a>
+        </div>
+      </section>
+
+      <!-- 4) Content for nonprofits -->
+      <section id="nonprofits">
+        <h2>For Nonprofits</h2>
+        <p>
+          If you’re a nonprofit, we can help you turn “we need volunteers” into specific roles people can actually say yes to.
+          Clear roles reduce drop-off and make volunteers more successful.
+        </p>
+        <ul>
+          <li>Post roles with concrete duties, schedule, and point of contact.</li>
+          <li>Receive volunteers who are a better fit (availability + interest).</li>
+          <li>Close the loop: confirm start dates and outcomes so everyone learns what works.</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn" href="#">Nonprofit: Partner With Us (coming soon)</a>
+          <a class="btn secondary" href="#">How It Works (coming soon)</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
 </html>
+
