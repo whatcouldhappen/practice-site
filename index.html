@@ -34,6 +34,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -45,6 +46,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -55,6 +57,15 @@
 
         .nav-links a:hover {
             opacity: 0.8;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .container {
@@ -267,17 +278,51 @@
         }
 
         @media (max-width: 768px) {
+            nav {
+                padding: 0 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
             .nav-links {
-                gap: 1rem;
-                font-size: 0.9rem;
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0;
+                background: #2c5f8d;
+                padding: 1rem 0;
+                margin-top: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                padding: 0.5rem 1rem;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.5rem 0;
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
             }
 
             .grid {
                 grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
             }
         }
     </style>
@@ -286,11 +331,12 @@
     <header>
         <nav>
             <div class="logo">Tessara</div>
-            <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')">Home</a></li>
-                <li><a href="#" onclick="showPage('opportunities')">Opportunities</a></li>
-                <li><a href="#" onclick="showPage('nonprofits')">For Nonprofits</a></li>
-                <li><a href="#" onclick="showPage('about')">About</a></li>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showPage('home'); closeMenu();">Home</a></li>
+                <li><a href="#" onclick="showPage('opportunities'); closeMenu();">Opportunities</a></li>
+                <li><a href="#" onclick="showPage('nonprofits'); closeMenu();">For Nonprofits</a></li>
+                <li><a href="#" onclick="showPage('about'); closeMenu();">About</a></li>
             </ul>
         </nav>
     </header>
@@ -548,6 +594,17 @@
                 tags: ["Social", "Rewarding"]
             }
         ];
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
 
         // Navigation
         function showPage(pageId) {
