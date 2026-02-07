@@ -35,7 +35,7 @@
   </form>
 
   <p id="confirm" style="margin-top:20px;"></p>
-    const resetBtn = document.getElementById("resetBtn");
+   
 
 <button id="resetBtn"
   onclick="localStorage.removeItem('demoSignup'); location.reload();"
@@ -54,6 +54,7 @@
  <script>
     const form = document.getElementById("signupForm");
     const confirm = document.getElementById("confirm");
+    const resetBtn = document.getElementById("resetBtn");
 const existing = localStorage.getItem("demoSignup");
 if (existing) {
   const data = JSON.parse(existing);
@@ -77,6 +78,8 @@ if (existing) {
       resetBtn.style.display = "inline-block";
       form.reset();
     });
+  
+
   </script>
 
 
