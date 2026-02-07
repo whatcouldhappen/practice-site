@@ -35,7 +35,9 @@
   </form>
 
   <p id="confirm" style="margin-top:20px;"></p>
-
+<button onclick="localStorage.removeItem('demoSignup'); location.reload();">
+  Reset demo
+</button>
   <p>
     <a href="./index.html">Back to demo</a>
 
@@ -62,9 +64,7 @@
       form.reset();
     });
   </script>
-<button onclick="localStorage.removeItem('demoSignup'); location.reload();">
-  Reset demo
-</button>
+
 
 </body>
 </html>
