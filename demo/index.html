@@ -17,11 +17,55 @@
   <main class="container" style="padding: 40px 20px;">
     <h1>Demo</h1>
     <p>This is where we’ll run the “volunteer signup” flow.</p>
+<hr style="margin: 24px 0;" />
+
+<h2>Saved demo signup</h2>
+<p id="demoData">No demo signups yet.</p>
+
+<button id="resetDemo" class="btn btn-secondary" style="display:none;">
+  Reset demo
+</button>
+<script>
+  const demoDataEl = document.getElementById("demoData");
+  const resetBtn = document.getElementById("resetDemo");
+
+  function render() {
+    const raw = localStorage.getItem("demoSignup");
+
+    if (!raw) {
+      demoDataEl.textContent = "No demo signups yet.";
+      resetBtn.style.display = "none";
+      return;
+    }
+
+    try {
+      const data = JSON.parse(raw);
+      const name = data?.name || "(no name)";
+      const email = data?.email || "(no email)";
+
+      demoDataEl.textContent = `Saved demo signup for ${name} (${email})`;
+      resetBtn.style.display = "inline-block";
+    } catch (e) {
+      // If storage is corrupted, clear it so the demo works again
+      localStorage.removeItem("demoSignup");
+      demoDataEl.textContent = "No demo signups yet.";
+      resetBtn.style.display = "none";
+    }
+  }
+
+  resetBtn.addEventListener("click", () => {
+    localStorage.removeItem("demoSignup");
+    render();
+  });
+
+  render();
+</script>
 
     <div style="margin-top:20px;">
       <a class="btn btn-primary" href="./signup.html">Start demo signup</a>
       <a class="btn btn-secondary" href="../">Back to home</a>
     </div>
   </main>
+  
 </body>
 </html>
