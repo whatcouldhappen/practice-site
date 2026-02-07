@@ -35,9 +35,15 @@
   </form>
 
   <p id="confirm" style="margin-top:20px;"></p>
-<button onclick="localStorage.removeItem('demoSignup'); location.reload();">
+    const resetBtn = document.getElementById("resetBtn");
+
+<button id="resetBtn"
+  onclick="localStorage.removeItem('demoSignup'); location.reload();"
+  style="display:none; margin-top:10px;"
+>
   Reset demo
 </button>
+
   <p>
     <a href="./index.html">Back to demo</a>
 
@@ -48,6 +54,12 @@
  <script>
     const form = document.getElementById("signupForm");
     const confirm = document.getElementById("confirm");
+const existing = localStorage.getItem("demoSignup");
+if (existing) {
+  const data = JSON.parse(existing);
+  confirm.textContent = "Saved demo signup for " + data.name + " (" + data.email + ")";
+  resetBtn.style.display = "inline-block";
+}
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -59,8 +71,10 @@
 
       localStorage.setItem("demoSignup", JSON.stringify(data));
 
+
       confirm.textContent =
         "Saved demo signup for " + data.name + " (" + data.email + ")";
+      resetBtn.style.display = "inline-block";
       form.reset();
     });
   </script>
