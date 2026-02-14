@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tessara — Turning Good Intentions Into Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-cream: #FAF7F2; --color-warm-white: #FFFFFF; --color-bark: #3D2E1F;
+      --color-bark-light: #5C4A3A; --color-sage: #6B7F5E; --color-sage-dark: #556B48;
+      --color-sage-light: #E8EDE4; --color-terracotta: #C4704B; --color-terracotta-light: #F5E6DE;
+      --color-gold: #D4A853; --color-gold-light: #FDF6E7; --color-text: #2C2420;
+      --color-text-light: #6B6058; --color-border: #E5DED5;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+      --max-width: 1140px; --section-padding: 100px 24px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-body); color: var(--color-text); background: var(--color-cream); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(250,247,242,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); transition: box-shadow 0.3s ease; }
+    .nav.scrolled { box-shadow: 0 2px 20px rgba(61,46,31,0.08); }
+    .nav-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav-logo { font-family: var(--font-display); font-size: 1.55rem; color: var(--color-bark); text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--color-text-light); font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--color-sage-dark); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--color-bark); margin: 6px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-6px); }
+    .mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: var(--color-cream); z-index: 999; padding: 40px 24px; }
+    .mobile-menu.open { display: flex; flex-direction: column; gap: 12px; }
+    .mobile-menu a { text-decoration: none; color: var(--color-text); font-size: 1.25rem; font-weight: 500; padding: 14px 0; border-bottom: 1px solid var(--color-border); display: block; }
+
+    /* HERO */
+    .hero { padding: 180px 24px 80px; text-align: center; position: relative; overflow: hidden; min-height: 600px; display: flex; align-items: center; justify-content: center; }
+    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1600&q=80'); background-size: cover; background-position: center 30%; }
+    .hero-bg::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(44,36,32,0.62) 0%, rgba(44,36,32,0.75) 100%); }
+    .hero-content { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-label { display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s ease forwards; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem,5.5vw,3.6rem); color: white; line-height: 1.15; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s ease 0.15s forwards; }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.85); max-width: 540px; margin: 0 auto 0; line-height: 1.7; font-weight: 300; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* HOW IT WORKS STRIP */
+    .steps-strip { background: var(--color-warm-white); border-bottom: 1px solid var(--color-border); padding: 40px 24px; }
+    .steps-strip-inner { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .strip-step { display: flex; align-items: flex-start; gap: 14px; }
+    .strip-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .strip-step:nth-child(1) .strip-icon { background: var(--color-sage-light); }
+    .strip-step:nth-child(2) .strip-icon { background: var(--color-gold-light); }
+    .strip-step:nth-child(3) .strip-icon { background: var(--color-terracotta-light); }
+    .strip-text h3 { font-family: var(--font-display); font-size: 1rem; color: var(--color-bark); margin-bottom: 4px; }
+    .strip-text p { font-size: 0.85rem; color: var(--color-text-light); line-height: 1.5; }
+
+    /* SECTIONS */
+    .section { padding: var(--section-padding); }
+    .section-inner { max-width: var(--max-width); margin: 0 auto; }
+    .section-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-sage); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(1.8rem,4vw,2.5rem); color: var(--color-bark); line-height: 1.2; margin-bottom: 16px; }
+    .section-subtitle { font-size: 1.05rem; color: var(--color-text-light); max-width: 560px; line-height: 1.7; font-weight: 300; }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 8px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: all 0.25s ease; }
+    .btn-primary { background: var(--color-sage); color: white; }
+    .btn-primary:hover { background: var(--color-sage-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(107,127,94,0.3); }
+
+    /* OPPORTUNITIES */
+    .opportunities { background: var(--color-cream); }
+    .filters { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+    .filter-search { flex: 1; min-width: 200px; padding: 12px 16px; border: 1.5px solid var(--color-border); border-radius: 8px; font-family: var(--font-body); font-size: 0.92rem; background: var(--color-warm-white); color: var(--color-text); outline: none; transition: border-color 0.2s; }
+    .filter-search:focus { border-color: var(--color-sage); }
+    .filter-search::placeholder { color: #B0A89E; }
+    .filter-select { padding: 12px 16px; border: 1.5px solid var(--color-border); border-radius: 8px; font-family: var(--font-body); font-size: 0.92rem; background: var(--color-warm-white); color: var(--color-text); outline: none; cursor: pointer; min-width: 160px; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%236B6058' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .filter-select:focus { border-color: var(--color-sage); }
+    .listings-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(320px,1fr)); gap: 20px; margin-top: 28px; }
+    .listing-card { background: var(--color-warm-white); border: 1px solid var(--color-border); border-radius: 12px; padding: 28px; cursor: pointer; transition: all 0.25s ease; }
+    .listing-card:hover { border-color: var(--color-sage); box-shadow: 0 4px 20px rgba(107,127,94,0.1); transform: translateY(-2px); }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .card-org { font-size: 0.82rem; font-weight: 600; color: var(--color-sage-dark); }
+    .card-badge { display: inline-flex; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .badge-one-time { background: var(--color-terracotta-light); color: var(--color-terracotta); }
+    .badge-short-term { background: var(--color-gold-light); color: #A88932; }
+    .badge-ongoing { background: var(--color-sage-light); color: var(--color-sage-dark); }
+    .card-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--color-bark); margin-bottom: 10px; line-height: 1.3; }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .card-tag { font-size: 0.78rem; font-weight: 500; color: var(--color-text-light); background: var(--color-cream); padding: 4px 10px; border-radius: 6px; }
+    .card-description { font-size: 0.9rem; color: var(--color-text-light); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .listings-loading { text-align: center; padding: 60px 24px; color: var(--color-text-light); }
+    .loading-spinner { width: 36px; height: 36px; border: 3px solid var(--color-border); border-top-color: var(--color-sage); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .listings-empty { text-align: center; padding: 60px 24px; color: var(--color-text-light); border: 2px dashed var(--color-border); border-radius: 12px; margin-top: 28px; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(44,36,32,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; padding: 24px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--color-warm-white); border-radius: 16px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(44,36,32,0.2); }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; color: var(--color-text-light); cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: background 0.2s; }
+    .modal-close:hover { background: var(--color-cream); }
+    .modal-org { font-size: 0.85rem; font-weight: 600; color: var(--color-sage-dark); margin-bottom: 8px; }
+    .modal-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--color-bark); margin-bottom: 20px; line-height: 1.3; }
+    .modal-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .modal-detail { background: var(--color-cream); border-radius: 8px; padding: 12px 16px; }
+    .modal-detail-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-light); margin-bottom: 4px; }
+    .modal-detail-value { font-size: 0.92rem; color: var(--color-text); font-weight: 500; }
+    .modal-description { font-size: 0.95rem; color: var(--color-text-light); line-height: 1.75; margin-bottom: 28px; }
+    .modal-interested-btn { width: 100%; }
+    .modal-interested-btn.hidden { display: none; }
+    .interest-divider { height: 1px; background: var(--color-border); margin: 24px 0; }
+    .interest-form { display: none; }
+    .interest-form.open { display: block; }
+    .interest-form-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--color-bark); margin-bottom: 16px; }
+    .interest-row { margin-bottom: 16px; }
+    .interest-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-bark); margin-bottom: 4px; }
+    .interest-label .required { color: var(--color-terracotta); }
+    .interest-input, .interest-textarea { width: 100%; padding: 10px 14px; border: 1.5px solid var(--color-border); border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; background: var(--color-cream); color: var(--color-text); outline: none; transition: border-color 0.2s; }
+    .interest-input:focus, .interest-textarea:focus { border-color: var(--color-sage); }
+    .interest-input::placeholder, .interest-textarea::placeholder { color: #B0A89E; }
+    .interest-textarea { min-height: 80px; resize: vertical; }
+    .interest-input.error { border-color: var(--color-terracotta); }
+    .interest-error { font-size: 0.78rem; color: var(--color-terracotta); margin-top: 3px; display: none; }
+    .interest-message { padding: 14px 18px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 16px; display: none; }
+    .interest-message.success { background: var(--color-sage-light); color: var(--color-sage-dark); display: block; }
+    .interest-message.err { background: var(--color-terracotta-light); color: var(--color-terracotta); display: block; }
+    .interest-submit { width: 100%; }
+    .interest-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* FOOTER */
+    .footer { padding: 56px 24px; background: var(--color-bark); color: rgba(255,255,255,0.7); text-align: center; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.4rem; color: white; margin-bottom: 16px; }
+    .footer p { font-size: 0.9rem; line-height: 1.75; max-width: 520px; margin: 0 auto; }
+    .footer a { color: var(--color-gold); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 24px auto; }
+    .footer-np { margin-top: 28px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer-np a { color: var(--color-gold); font-weight: 500; font-size: 0.95rem; }
+    .footer-bottom { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 20px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      :root { --section-padding: 72px 20px; }
+      .nav-links { display: none; } .hamburger { display: block; }
+      .hero { padding: 140px 20px 60px; min-height: 480px; }
+      .steps-strip-inner { grid-template-columns: 1fr; gap: 24px; }
+      .listings-grid { grid-template-columns: 1fr; }
+      .modal { padding: 28px; } .modal-details { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav"><div class="nav-inner">
+    <a href="#" class="nav-logo">Tessara</a>
+    <ul class="nav-links">
+      <li><a href="#opportunities">Opportunities</a></li>
+      <li><a href="nonprofits.html">For Nonprofits</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div></nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#opportunities" class="mobile-link">Opportunities</a>
+    <a href="nonprofits.html" class="mobile-link">For Nonprofits</a>
+    <a href="about.html" class="mobile-link">About</a>
+  </div>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-label">Volunteer Matching for Michiana</span>
+      <h1>Turning Good Intentions Into&nbsp;Work</h1>
+      <p>A free, local way to match volunteers with nonprofits in Granger, South Bend, Mishawaka, Elkhart, and surrounding communities.</p>
+    </div>
+  </section>
+
+  <div class="steps-strip"><div class="steps-strip-inner">
+    <div class="strip-step"><div class="strip-icon">🔍</div><div class="strip-text"><h3>Browse clear listings</h3><p>Every opportunity tells you exactly what's needed, where, and for how long.</p></div></div>
+    <div class="strip-step"><div class="strip-icon">📋</div><div class="strip-text"><h3>Pick what fits your life</h3><p>Filter by category, time commitment, and location.</p></div></div>
+    <div class="strip-step"><div class="strip-icon">🤝</div><div class="strip-text"><h3>Show up and help</h3><p>Connect directly with the organization and go make a difference.</p></div></div>
+  </div></div>
+
+  <section class="section opportunities" id="opportunities"><div class="section-inner">
+    <div class="section-label">Opportunities</div>
+    <h2 class="section-title">Find your fit</h2>
+    <p class="section-subtitle">Browse current volunteer opportunities from local organizations.</p>
+    <div class="filters">
+      <input type="text" class="filter-search" id="filterSearch" placeholder="Search by keyword...">
+      <select class="filter-select" id="filterCategory"><option value="">All Categories</option><option value="Education">Education</option><option value="Environment">Environment</option><option value="Community Service">Community Service</option><option value="Health &amp; Wellness">Health &amp; Wellness</option><option value="Animals">Animals</option></select>
+      <select class="filter-select" id="filterCommitment"><option value="">Any Commitment</option><option value="One-time">One-time</option><option value="Short-term">Short-term</option><option value="Ongoing">Ongoing</option></select>
+    </div>
+    <div id="listings-container"><div class="listings-loading"><div class="loading-spinner"></div>Loading opportunities...</div></div>
+  </div></section>
+
+  <div class="modal-overlay" id="modalOverlay"><div class="modal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-org" id="modalOrg"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-details" id="modalDetails"></div>
+    <div class="modal-description" id="modalDescription"></div>
+    <button class="btn btn-primary modal-interested-btn" id="modalInterestedBtn">I'm Interested</button>
+    <div class="interest-divider" id="interestDivider" style="display:none;"></div>
+    <div class="interest-form" id="interestForm">
+      <div class="interest-message" id="interestMsg"></div>
+      <div class="interest-form-title" id="interestFormTitle">Tell them a little about yourself</div>
+      <div class="interest-row" id="interestRow1"><label class="interest-label">Your Name <span class="required">*</span></label><input type="text" class="interest-input" id="interestName" placeholder="Jane Doe"><div class="interest-error" id="interestNameError">Please enter your name.</div></div>
+      <div class="interest-row" id="interestRow2"><label class="interest-label">Your Email <span class="required">*</span></label><input type="email" class="interest-input" id="interestEmail" placeholder="jane@example.com"><div class="interest-error" id="interestEmailError">Please enter a valid email.</div></div>
+      <div class="interest-row" id="interestRow3"><label class="interest-label">Message <span style="color:var(--color-text-light);font-weight:400">(optional)</span></label><textarea class="interest-textarea" id="interestMessage2" placeholder="Tell them a bit about yourself or ask a question."></textarea></div>
+      <button class="btn btn-primary interest-submit" id="interestSubmit">Send My Info</button>
+    </div>
+  </div></div>
+
+  <footer class="footer">
+    <div class="footer-logo">Tessara</div>
+    <p>Serving the Michiana area — Granger, South Bend, Mishawaka, Elkhart, and surrounding communities.</p>
+    <div class="footer-np">
+      <p>Is your organization looking for volunteers?<br><a href="nonprofits.html">Tap here to see how you can be added to Tessara at no cost &rarr;</a></p>
+    </div>
+    <div class="footer-divider"></div>
+    <p>Founded by [Your Name] &middot; <a href="mailto:hello@tessaralocal.org">hello@tessaralocal.org</a> &middot; <a href="about.html">About Tessara</a></p>
+    <div class="footer-bottom">&copy; 2026 Tessara. All rights reserved.</div>
+  </footer>
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbxQvjaxC00bsqm79vG-JpN_5SINRLiqLiUEzGmEGTEr_NmWC_nH3ZEfYkjtI0LFbAIziQ/exec';
+    var allListings = [];
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mobile-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 20); });
+    var catIcons = { 'Education':'📚', 'Environment':'🌿', 'Community Service':'🏘️', 'Health & Wellness':'❤️', 'Animals':'🐾' };
+    function getBadge(c) { c=(c||'').toLowerCase(); if(c==='one-time') return 'badge-one-time'; if(c==='short-term') return 'badge-short-term'; return 'badge-ongoing'; }
+    function renderListings(list) {
+      var el = document.getElementById('listings-container');
+      if (!list.length) { el.innerHTML = '<div class="listings-empty">No opportunities match your filters.</div>'; return; }
+      var h = '<div class="listings-grid">';
+      for (var i=0; i<list.length; i++) {
+        var l=list[i];
+        h += '<div class="listing-card" data-id="'+(l.ID||'')+'">';
+        h += '<div class="card-top"><div class="card-org">'+(l.Organization||'')+'</div>';
+        h += '<span class="card-badge '+getBadge(l.TimeCommitment)+'">'+(l.TimeCommitment||'')+'</span></div>';
+        h += '<div class="card-title">'+(l.Title||'')+'</div><div class="card-tags">';
+        if(l.Category) h += '<span class="card-tag">'+(catIcons[l.Category]||'')+' '+l.Category+'</span>';
+        if(l.Location) h += '<span class="card-tag">📍 '+l.Location+'</span>';
+        h += '</div><div class="card-description">'+(l.Description||'')+'</div></div>';
+      }
+      h += '</div>';
+      el.innerHTML = h;
+      el.querySelectorAll('.listing-card').forEach(function(c) { c.addEventListener('click', function() { openModal(this.dataset.id); }); });
+    }
+    function applyFilters() {
+      var s=document.getElementById('filterSearch').value.toLowerCase();
+      var cat=document.getElementById('filterCategory').value;
+      var com=document.getElementById('filterCommitment').value;
+      renderListings(allListings.filter(function(l) {
+        var ms = !s || Object.values(l).some(function(v){return String(v).toLowerCase().indexOf(s)!==-1;});
+        return ms && (!cat||l.Category===cat) && (!com||l.TimeCommitment===com);
+      }));
+    }
+    document.getElementById('filterSearch').addEventListener('input', applyFilters);
+    document.getElementById('filterCategory').addEventListener('change', applyFilters);
+    document.getElementById('filterCommitment').addEventListener('change', applyFilters);
+    var modalOverlay = document.getElementById('modalOverlay');
+    function openModal(id) {
+      var l = allListings.find(function(x){return x.ID===id;});
+      if(!l) return;
+      document.getElementById('modalOrg').textContent = l.Organization||'';
+      document.getElementById('modalTitle').textContent = l.Title||'';
+      document.getElementById('modalDescription').textContent = l.Description||'';
+      var d='';
+      if(l.Location) d+='<div class="modal-detail"><div class="modal-detail-label">Location</div><div class="modal-detail-value">'+l.Location+'</div></div>';
+      if(l.TimeCommitment) d+='<div class="modal-detail"><div class="modal-detail-label">Commitment</div><div class="modal-detail-value">'+l.TimeCommitment+'</div></div>';
+      if(l.HoursPerWeek) d+='<div class="modal-detail"><div class="modal-detail-label">Hours / Week</div><div class="modal-detail-value">'+l.HoursPerWeek+'</div></div>';
+      if(l.Category) d+='<div class="modal-detail"><div class="modal-detail-label">Category</div><div class="modal-detail-value">'+(catIcons[l.Category]||'')+' '+l.Category+'</div></div>';
+      if(l.ExperienceRequired) d+='<div class="modal-detail"><div class="modal-detail-label">Experience Required</div><div class="modal-detail-value">'+l.ExperienceRequired+'</div></div>';
+      if(l.Date){try{d+='<div class="modal-detail"><div class="modal-detail-label">Date</div><div class="modal-detail-value">'+new Date(l.Date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+'</div></div>';}catch(e){}}
+      document.getElementById('modalDetails').innerHTML = d;
+      document.getElementById('modalInterestedBtn').dataset.listingId = l.ID;
+      document.getElementById('modalInterestedBtn').dataset.orgName = l.Organization;
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      document.getElementById('modalInterestedBtn').classList.remove('hidden');
+      document.getElementById('interestDivider').style.display = 'none';
+      document.getElementById('interestForm').classList.remove('open');
+      document.getElementById('interestName').value = '';
+      document.getElementById('interestEmail').value = '';
+      document.getElementById('interestMessage2').value = '';
+      var im = document.getElementById('interestMsg');
+      im.className = 'interest-message'; im.style.display = 'none';
+      document.querySelectorAll('.interest-error').forEach(function(e){e.style.display='none';});
+      document.querySelectorAll('.interest-input.error').forEach(function(e){e.classList.remove('error');});
+      document.getElementById('interestSubmit').style.display = '';
+      document.getElementById('interestFormTitle').style.display = '';
+      document.querySelectorAll('[id^="interestRow"]').forEach(function(e){e.style.display='';});
+    }
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function(e){if(e.target===modalOverlay) closeModal();});
+    document.addEventListener('keydown', function(e){if(e.key==='Escape') closeModal();});
+    document.getElementById('modalInterestedBtn').addEventListener('click', function() {
+      this.classList.add('hidden');
+      document.getElementById('interestDivider').style.display = 'block';
+      document.getElementById('interestForm').classList.add('open');
+    });
+    document.getElementById('interestSubmit').addEventListener('click', async function() {
+      var btn = this;
+      var im = document.getElementById('interestMsg');
+      im.className='interest-message'; im.style.display='none';
+      document.querySelectorAll('.interest-error').forEach(function(e){e.style.display='none';});
+      document.querySelectorAll('.interest-input.error').forEach(function(e){e.classList.remove('error');});
+      var name = document.getElementById('interestName').value.trim();
+      var email = document.getElementById('interestEmail').value.trim();
+      var message = document.getElementById('interestMessage2').value.trim();
+      var listingId = document.getElementById('modalInterestedBtn').dataset.listingId;
+      var orgName = document.getElementById('modalInterestedBtn').dataset.orgName;
+      var valid = true;
+      if(!name){document.getElementById('interestName').classList.add('error');document.getElementById('interestNameError').style.display='block';valid=false;}
+      if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('interestEmail').classList.add('error');document.getElementById('interestEmailError').style.display='block';valid=false;}
+      if(!valid) return;
+      btn.disabled=true; btn.textContent='Sending...';
+      try {
+        var resp = await fetch(API_URL, {method:'POST', body:JSON.stringify({type:'interest',listingId:listingId,volunteerName:name,email:email,phone:'',message:message})});
+        var data = await resp.json();
+        if(data.success) {
+          im.textContent="Thanks! We've shared your information with "+orgName+". They'll be in touch.";
+          im.className='interest-message success'; im.style.display='block';
+          document.getElementById('interestName').value='';
+          document.getElementById('interestEmail').value='';
+          document.getElementById('interestMessage2').value='';
+          btn.style.display='none';
+          document.getElementById('interestFormTitle').style.display='none';
+          document.querySelectorAll('[id^="interestRow"]').forEach(function(e){e.style.display='none';});
+        } else {
+          im.textContent='Something went wrong. Please try again.';
+          im.className='interest-message err'; im.style.display='block';
+        }
+      } catch(err) {
+        im.textContent='Something went wrong. Please try again.';
+        im.className='interest-message err'; im.style.display='block';
+      }
+      btn.disabled=false; btn.textContent='Send My Info';
+    });
+    (async function(){
+      try {
+        var resp = await fetch(API_URL);
+        var data = await resp.json();
+        if(data.success && data.listings){allListings=data.listings; renderListings(allListings);}
+        else{document.getElementById('listings-container').innerHTML='<div class="listings-empty">Unable to load opportunities right now.</div>';}
+      }catch(err){document.getElementById('listings-container').innerHTML='<div class="listings-empty">Unable to load opportunities right now.</div>';}
+    })();
+  </script>
+</body>
+</html>
